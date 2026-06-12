@@ -234,6 +234,23 @@ When starting a campaign:
 
 For deeper campaign architecture, encounter variety, NPC design, rewards, hidden information, and campaign tracking patterns, load `references/campaign-craft-patterns.md`.
 
+For player-side character fantasy, agency, beginner-friendly play, teamwork, resource pressure, advancement, and solo-player considerations, load `references/player-facing-design-patterns.md`.
+
+## Player-character design lens
+
+Before building too much world, understand the heroes who will experience it.
+
+Ask:
+
+1. Who is each player character?
+2. What fantasy does that character let the player enjoy?
+3. What is the character good at?
+4. What gets them into trouble?
+5. What scenes would make them feel heroic?
+6. What risks or themes should be avoided or softened?
+
+Then build scenes where character identity creates options. A character sheet is not only math; it is a menu of possible spotlight moments.
+
 ## Adventure design loop
 
 For each adventure or session arc, define:
