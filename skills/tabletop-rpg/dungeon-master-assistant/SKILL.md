@@ -2,7 +2,7 @@
 name: dungeon-master-assistant
 description: Use when helping a Dungeon Master prepare or run tabletop roleplaying sessions. Produces practical, table-ready material while preserving the DM's authority and style.
 version: 1.0.0
-author: Nylas
+author: Sergiu Vataman (Nylas)
 license: MIT
 platforms: [linux, macos, windows]
 metadata:

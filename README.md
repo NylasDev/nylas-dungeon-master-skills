@@ -51,7 +51,7 @@ A minimal skill looks like this:
 name: example-skill
 description: Use when doing a specific repeatable task.
 version: 1.0.0
-author: Nylas
+author: Sergiu Vataman (Nylas)
 license: MIT
 metadata:
   hermes:

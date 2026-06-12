@@ -2,7 +2,7 @@
 name: agent-dungeon-master
 description: Use when an agent should run a tabletop roleplaying game as the Dungeon Master, especially for players or forever-DMs who want to experience the story as heroes. Teaches campaign focus, player taste, spotlight rotation, hidden information, rulings, difficulty, and table fun.
 version: 1.0.0
-author: Nylas
+author: Sergiu Vataman (Nylas)
 license: MIT
 platforms: [linux, macos, windows]
 metadata:

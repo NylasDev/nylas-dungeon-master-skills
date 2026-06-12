@@ -29,7 +29,7 @@ Every `SKILL.md` should start with frontmatter:
 name: skill-name
 description: Use when <specific trigger>. Explains <specific workflow>.
 version: 1.0.0
-author: Nylas
+author: Sergiu Vataman (Nylas)
 license: MIT
 metadata:
   hermes:
