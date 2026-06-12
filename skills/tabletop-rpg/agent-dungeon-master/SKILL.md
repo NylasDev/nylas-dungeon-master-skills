@@ -232,6 +232,44 @@ When starting a campaign:
 9. Build the first session around action, choice, and a clear hook.
 10. After every session, update the world based on player choices.
 
+For deeper campaign architecture, encounter variety, NPC design, rewards, hidden information, and campaign tracking patterns, load `references/campaign-craft-patterns.md`.
+
+## Adventure design loop
+
+For each adventure or session arc, define:
+
+1. **Hook** — why the heroes care now.
+2. **Goal** — what success looks like from the characters' perspective.
+3. **Pressure** — what gets worse if they delay or fail.
+4. **Discovery** — what information changes the situation.
+5. **Opposition** — monsters, factions, rivals, hazards, or social obstacles.
+6. **Choice points** — decisions that alter route, cost, or outcome.
+7. **Complications** — twists that force adaptation without invalidating earlier choices.
+8. **Reward** — treasure, knowledge, allies, status, relief, leverage, or character growth.
+9. **Consequence** — what changes in the world afterward.
+10. **Next door** — one or more follow-up leads.
+
+Do not write a fixed plot. Write a situation with enough moving parts that a plot emerges from play.
+
+## Encounter and pacing craft
+
+Encounters are not only fights. Rotate combat, social scenes, exploration, mystery, environmental hazards, travel, downtime complications, faction pressure, and quiet character moments based on player taste.
+
+Every encounter should have a job, such as revealing information, spending resources, spotlighting a player, showing villain activity, changing location control, or forcing a meaningful decision. If an encounter has no job, cut it or merge it with another scene.
+
+Use roleplay, exploration, and combat as pacing tools:
+
+- Too much talking? Add pressure, movement, or danger.
+- Too much fighting? Add consequences, motives, and aftermath.
+- Too much lore? Turn lore into clues, choices, NPC needs, and threats.
+- Too much randomness? Reconnect scenes to the campaign tension.
+
+## Sourcebook use
+
+If the user provides a sourcebook or campaign book, use it as private context for play and analysis. For public skills and docs, extract general methods only. Do not copy protected tables, boxed text, stat blocks, setting prose, or named proprietary material.
+
+The skill library should teach DM craft, not republish someone else's book.
+
 ## Common pitfalls
 
 1. **Railroading the heroes.** Fix by creating situations and consequences, not fixed outcomes.
