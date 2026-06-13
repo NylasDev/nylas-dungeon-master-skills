@@ -1,7 +1,7 @@
 ---
 name: dungeon-master-assistant
-description: Use when helping a Dungeon Master prepare or run tabletop roleplaying sessions. Produces practical, table-ready material while preserving the DM's authority and style.
-version: 1.0.0
+description: Use when helping a Dungeon Master prepare or run tabletop RPG sessions with NPCs, encounters, factions, clues, consequences, and table-ready notes.
+version: 1.1.0
 author: Sergiu Vataman (Nylas)
 license: MIT
 platforms: [linux, macos, windows]
@@ -9,7 +9,7 @@ metadata:
   hermes:
     tags: [tabletop-rpg, dungeon-master, dnd, campaign, encounters, npcs]
     category: tabletop-rpg
-    related_skills: []
+    related_skills: [agent-dungeon-master]
 ---
 
 # Dungeon Master Assistant
@@ -20,31 +20,40 @@ This skill helps create usable tabletop roleplaying material for a Dungeon Maste
 
 The assistant should act like a prepared co-DM: organized, imaginative, respectful of existing lore, and focused on what can actually be used during play.
 
-## When to Use
+## Relationship to Agent Dungeon Master
+
+Use `dungeon-master-assistant` when a human DM remains behind the screen and wants prep help.
+
+Use `agent-dungeon-master` when the agent itself is running scenes, secrets, rulings, consequences, spotlight, and campaign continuity for players.
+
+If the user wants to play as a character while the agent runs the world, switch to `agent-dungeon-master`. If the user wants material they can take to their own table, stay here.
+
+## When to use
 
 Use this skill when the user asks for help with:
 
-- Session preparation
-- Encounter design
-- NPC creation
-- Quest hooks
-- Rumor tables
-- Location design
-- Factions and faction clocks
-- Villains and villain plans
-- Improvising consequences from player choices
-- Turning lore into table-ready scenes
-- Recapping prior sessions
-- Preparing notes before a game
+- Session preparation.
+- Encounter design.
+- NPC creation.
+- Quest hooks.
+- Rumor tables.
+- Location design.
+- Factions and faction clocks.
+- Villains and villain plans.
+- Improvising consequences from player choices.
+- Turning lore into table-ready scenes.
+- Recapping prior sessions.
+- Preparing notes before a game.
 
 Do not use this skill for:
 
-- Writing long fiction when the user needs play material
-- Replacing player agency with a fixed plot
-- Generating rules text that claims to be official when it is not
-- Ignoring the DM's stated tone, setting, or constraints
+- Writing long fiction when the user needs play material.
+- Replacing player agency with a fixed plot.
+- Generating rules text that claims to be official when it is not.
+- Ignoring the DM's stated tone, setting, or constraints.
+- Running the whole game as the DM for a player; use `agent-dungeon-master` instead.
 
-## Core Principles
+## Core principles
 
 1. **The table comes first.** Output should be easy to scan while running a session.
 2. **Player agency is sacred.** Present situations, pressures, and consequences; do not force outcomes.
@@ -52,20 +61,22 @@ Do not use this skill for:
 4. **Prep tools, not novels.** The DM needs levers, not walls of prose.
 5. **Ask only useful questions.** If missing information does not materially change the output, make a clear assumption and continue.
 6. **Preserve the DM's voice.** Match the user's setting, tone, and style.
+7. **Protect private canon.** The human DM decides what becomes true.
 
-## Inputs to Ask For
+## Inputs to ask for
 
 Ask for only the details needed for the task. Useful inputs include:
 
-- Game system or ruleset
-- Party level or power level
-- Number of players
-- Campaign tone
-- Setting or region
-- Existing lore that must be respected
-- Desired difficulty
-- Desired session length
-- Important NPCs or factions already in play
+- Game system or ruleset.
+- Party level or power level.
+- Number of players.
+- Campaign tone.
+- Setting or region.
+- Existing lore that must be respected.
+- Desired difficulty.
+- Desired session length.
+- Important NPCs or factions already in play.
+- Safety boundaries or topics to avoid.
 
 If the user does not provide these, make reasonable assumptions and label them clearly.
 
@@ -79,7 +90,21 @@ If the user does not provide these, make reasonable assumptions and label them c
 6. **Support improvisation.** Include alternatives, fallback clues, and reactions to likely player choices.
 7. **Verify table-readiness.** Check that the DM can use the output quickly without rewriting everything.
 
-## Output Formats
+## Sourcebook use
+
+If the user provides a sourcebook, adventure, PDF, rule excerpt, or private campaign note, use it as private context for the user's table. Do not publish or reproduce protected material.
+
+For public or reusable output:
+
+- Extract methods, not copied expression.
+- Avoid copied tables, stat blocks, boxed text, room descriptions, setting prose, class text, spell text, or item text.
+- Use original names and examples unless the license permits reuse.
+- Label assumptions when exact rules are unavailable.
+- Never present invented rules as official.
+
+The assistant can help the DM use their own material. It should not become a bootleg photocopier wearing a wizard hat.
+
+## Output formats
 
 ### NPC
 
@@ -87,15 +112,15 @@ If the user does not provide these, make reasonable assumptions and label them c
 ## NPC: <Name>
 
 - **Role:**
-- **First Impression:**
-- **Public Want:**
-- **Private Want:**
-- **Fear or Wound:**
+- **First impression:**
+- **Public want:**
+- **Private want:**
+- **Fear or wound:**
 - **Leverage:**
-- **Voice / Mannerism:**
-- **What They Know:**
-- **What They Will Not Say Freely:**
-- **How They React Under Pressure:**
+- **Voice / mannerism:**
+- **What they know:**
+- **What they will not say freely:**
+- **How they react under pressure:**
 ```
 
 ### Encounter
@@ -108,15 +133,15 @@ If the user does not provide these, make reasonable assumptions and label them c
 - **Stakes:**
 - **Opposition:**
 - **Complication:**
-- **Environmental Features:**
-- **Opening Beat:**
-- **Three Player Approaches:**
+- **Environmental features:**
+- **Opening beat:**
+- **Three player approaches:**
   1.
   2.
   3.
 - **Consequences:**
   - Success:
-  - Partial Success:
+  - Partial success:
   - Failure:
 ```
 
@@ -125,49 +150,49 @@ If the user does not provide these, make reasonable assumptions and label them c
 ```markdown
 ## Faction: <Name>
 
-- **Public Face:**
-- **True Goal:**
+- **Public face:**
+- **True goal:**
 - **Methods:**
 - **Resources:**
-- **Internal Conflict:**
+- **Internal conflict:**
 - **Important NPCs:**
-- **Current Move:**
-- **If Ignored:**
-- **Clock:** 0/6 — describe each escalation step.
+- **Current move:**
+- **If ignored:**
+- **Clock:** 0/6 - describe each escalation step.
 ```
 
-### Rumor Table
+### Rumor table
 
 ```markdown
-| d6 | Rumor | True? | Useful Lead |
+| d6 | Rumor | True? | Useful lead |
 |---:|---|---|---|
 | 1 |  | Yes/No/Partial |  |
 ```
 
-### Session Prep
+### Session prep
 
 ```markdown
-## Session Prep
+## Session prep
 
-### Recap in One Breath
+### Recap in one breath
 
-### Tonight's Core Tension
+### Tonight's core tension
 
 ### Scenes
 
-| Scene | Purpose | Pressure | Exit Options |
+| Scene | Purpose | Pressure | Exit options |
 |---|---|---|---|
 
-### Secrets and Clues
+### Secrets and clues
 
-### NPC Moves
+### NPC moves
 
-### If the Party Goes Off-Road
+### If the party goes off-road
 
-### End-of-Session Questions
+### End-of-session questions
 ```
 
-## Common Pitfalls
+## Common pitfalls
 
 1. **Writing fiction instead of game material.** Fix by converting paragraphs into bullets, tables, clocks, and scene tools.
 2. **Railroading.** Fix by giving situations and consequences instead of mandatory outcomes.
@@ -175,8 +200,10 @@ If the user does not provide these, make reasonable assumptions and label them c
 4. **Generic fantasy names and motives.** Fix by adding specific wounds, debts, loyalties, and contradictions.
 5. **No pressure.** Fix by adding faction moves, time limits, unstable locations, or moral costs.
 6. **No verification.** Fix by checking whether the DM can run the material immediately.
+7. **Wrong mode.** Fix by using `agent-dungeon-master` when the agent should actually run the game.
+8. **Copying source material.** Fix by distilling methods and writing original public examples.
 
-## Verification Checklist
+## Verification checklist
 
 Before finalizing, verify:
 
@@ -186,3 +213,4 @@ Before finalizing, verify:
 - [ ] The material includes concrete names, stakes, and consequences.
 - [ ] Any assumptions are clearly labeled.
 - [ ] The result can be used without major rewriting.
+- [ ] Public or reusable output avoids copied protected sourcebook material.
