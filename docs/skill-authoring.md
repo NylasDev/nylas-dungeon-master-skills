@@ -1,10 +1,10 @@
-# Skill Authoring Guide
+# Skill authoring guide
 
 This guide explains how to write Dungeon Master skills for this repository.
 
 ## Goal
 
-A good skill should teach an agent a repeatable tabletop procedure, not just describe a topic.
+A good skill teaches an agent a repeatable tabletop procedure. It should help the agent produce something usable at the table, not merely describe a topic.
 
 Bad:
 
@@ -14,7 +14,21 @@ Better:
 
 > Use this procedure to create a villain with a motive, public mask, private wound, pressure clock, and three ways the party can discover the truth.
 
-## Required Shape
+## Skill types
+
+Prefer class-level skills: broad reusable behaviors that an agent can load for a whole class of tasks.
+
+Good examples:
+
+- `agent-dungeon-master`
+- `dungeon-master-assistant`
+- `villain-and-faction-engine`
+- `solo-player-dm`
+- `living-world-consequences`
+
+Avoid one-off session skills like `session-1-notes` or `dragon-jump-example`. Put those details in `references/`, `templates/`, or `examples/` under an existing skill.
+
+## Required shape
 
 Every skill should live here:
 
@@ -29,62 +43,95 @@ Every `SKILL.md` should start with frontmatter:
 name: skill-name
 description: Use when <specific trigger>. Explains <specific workflow>.
 version: 1.0.0
-author: Nylas
+author: Sergiu Vataman (Nylas)
 license: MIT
 metadata:
   hermes:
     tags: [tabletop-rpg, dungeon-master]
+    category: tabletop-rpg
     related_skills: []
 ---
 ```
 
-## Recommended Sections
+Rules:
+
+- `name` must match the parent folder.
+- `name` should use lowercase letters, numbers, and hyphens.
+- `description` must be under 1024 characters.
+- Keep descriptions short enough for agent discovery.
+- The body must not be empty.
+
+## Recommended sections
 
 ```markdown
-# Skill Title
+# Skill title
 
 ## Overview
 What this skill does and why it matters at the table.
 
-## When to Use
-Specific triggers.
+## When to use
+Specific triggers and counter-triggers.
 
-## Inputs to Ask For
+## Inputs to ask for
 Only ask for what changes the output.
 
 ## Procedure
 A numbered workflow.
 
-## Output Format
+## Output format
 A clear template the agent should produce.
 
-## Common Pitfalls
+## Common pitfalls
 Mistakes to avoid.
 
-## Verification Checklist
+## Verification checklist
 Concrete checks that make the result table-ready.
 ```
 
-## Writing Rules
+Not every skill needs exactly these headings, but every skill needs a clear trigger, a usable procedure, pitfalls, and verification.
+
+## Writing rules
 
 - Make the procedure practical enough to use mid-session.
 - Prefer tables, bullets, and templates over essays.
-- Preserve the Dungeon Master's authority; the skill assists, it does not take over.
+- Preserve player agency; present situations and consequences, not forced outcomes.
+- Keep hidden DM information hidden during in-world play.
 - Ask only for missing information that meaningfully changes the result.
 - Include verification steps so outputs can be checked before use.
 - Avoid vague advice like "make it interesting" unless you define how.
+- Preserve Nylas' core DM philosophy: PCs are heroes, creativity beats denial, spotlight rotates, rules serve table fun, and the world remembers choices.
 
-## Quality Bar
+## Sourcebook hygiene
+
+Public skills and examples must be original or license-safe. Do not copy rulebook prose, stat blocks, boxed text, adventure room descriptions, protected setting prose, proprietary tables, or class/spell/item text.
+
+If a user provides private source material, use it as private table context. Public repository content should distill methods and write original examples.
+
+## Quality bar
 
 A skill is ready when it can produce something useful in under five minutes:
 
-- An encounter
-- An NPC
-- A location
-- A faction
-- A rumor table
-- A session recap
-- A scene transition
-- A villain plan
+- An opening scene.
+- A ruling.
+- An encounter.
+- An NPC.
+- A location.
+- A faction.
+- A rumor table.
+- A session recap.
+- A scene transition.
+- A villain plan.
+- A campaign ledger update.
 
 If the result cannot be used at the table, the skill is not finished.
+
+## Validation
+
+Run:
+
+```bash
+python3 scripts/validate-skills.py
+npx --yes skills@latest add . --list
+```
+
+If the skill should be public-release ready, also test `npx skills use` for the changed skill.
