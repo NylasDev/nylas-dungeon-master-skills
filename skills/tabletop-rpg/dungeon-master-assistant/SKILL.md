@@ -5,11 +5,21 @@ version: 1.1.0
 author: Sergiu Vataman (Nylas)
 license: MIT
 platforms: [linux, macos, windows]
+compatibility: "Portable Agent Skills format; no external tools required."
+homepage: https://github.com/NylasDev/nylas-dungeon-master-skills
+user-invocable: true
 metadata:
   hermes:
     tags: [tabletop-rpg, dungeon-master, dnd, campaign, encounters, npcs]
     category: tabletop-rpg
     related_skills: [agent-dungeon-master]
+  agentskills:
+    category: games
+    audience: [dungeon-masters, tabletop-rpg-facilitators, campaign-preppers]
+  openclaw:
+    always: true
+    category: tabletop-rpg
+    userInvocable: true
 ---
 
 # Dungeon Master Assistant

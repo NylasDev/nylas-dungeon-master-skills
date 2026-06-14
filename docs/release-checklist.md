@@ -20,26 +20,29 @@ python3 scripts/validate-skills.py
 
 Expected: zero errors.
 
-## npx skills checks
+## npx skills and agent compatibility checks
 
 ```bash
+bash scripts/smoke-agent-installs.sh
 npx --yes skills@latest add . --list
-npx --yes skills@latest use . --skill agent-dungeon-master --full-depth | sed -n '1,220p'
-npx --yes skills@latest use . --skill dungeon-master-assistant --full-depth | sed -n '1,180p'
+npx --yes skills@latest use . --skill agent-dungeon-master --full-depth
+npx --yes skills@latest use . --skill dungeon-master-assistant --full-depth
 ```
 
-Expected: both skills are found, and generated prompts include the right operating instructions.
+Expected: both skills are found, prompts include the right operating instructions, and temporary installs for Hermes Agent and OpenClaw create the expected skill files.
 
-## Hermes checks
+## Hermes and OpenClaw checks
 
 Before merge, inspect raw branch URLs if needed. After merge, inspect `main`:
 
 ```bash
 hermes skills inspect https://raw.githubusercontent.com/NylasDev/nylas-dungeon-master-skills/main/skills/tabletop-rpg/agent-dungeon-master/SKILL.md
 hermes skills tap add NylasDev/nylas-dungeon-master-skills
+npx --yes skills@latest add . --skill agent-dungeon-master --skill dungeon-master-assistant --agent hermes-agent --global --copy --yes
+npx --yes skills@latest add . --skill agent-dungeon-master --skill dungeon-master-assistant --agent openclaw --global --copy --yes
 ```
 
-Hermes tap add expects `owner/repo`.
+Hermes tap add expects `owner/repo`. For local destructive hygiene, run global install smoke tests with a temporary `HOME` as `scripts/smoke-agent-installs.sh` does.
 
 ## Attribution and sourcebook scan
 
@@ -55,19 +58,19 @@ Expected: no assistant/coauthor credit language. Any sourcebook/legal terms that
 
 ```bash
 git status --short
-git add README.md CONTRIBUTING.md docs scripts skills examples .github
-git commit -m "feat: prepare dungeon master skills for public release"
+git add README.md CONTRIBUTING.md agent-support.json docs scripts skills examples .github
+git commit -m "feat: add multi-agent skill support"
 git push -u origin HEAD
-gh pr create --base main --head "$(git branch --show-current)" --title "feat: prepare dungeon master skills for public release" --body-file /tmp/agent-dm-public-release-pr.md
+gh pr create --base main --head "$(git branch --show-current)" --title "feat: add multi-agent skill support" --body-file /tmp/agent-support-pr.md
 ```
 
 The PR body should include:
 
-- Summary of skill changes.
-- New docs, templates, examples, and validation.
+- Summary of compatibility metadata and docs changes.
+- Agent support matrix updates.
+- New install helper and smoke validation.
 - Commands run.
-- Note that public examples are original and sourcebook-safe.
-- Questions for Nylas about voice, safety level, defaults, and platform packaging.
+- Note that public examples remain original and sourcebook-safe.
 
 ## After merge
 
