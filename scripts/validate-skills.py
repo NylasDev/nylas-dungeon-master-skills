@@ -7,17 +7,26 @@ run it without project setup.
 
 from __future__ import annotations
 
+import json
 import re
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS_ROOT = ROOT / "skills"
-PUBLIC_TEXT_ROOTS = [ROOT / "README.md", ROOT / "CONTRIBUTING.md", ROOT / "docs", ROOT / "skills", ROOT / "examples"]
+PUBLIC_TEXT_ROOTS = [
+    ROOT / "README.md",
+    ROOT / "CONTRIBUTING.md",
+    ROOT / "agent-support.json",
+    ROOT / "docs",
+    ROOT / "skills",
+    ROOT / "examples",
+]
 EXPECTED_AUTHOR = "Sergiu Vataman (Nylas)"
 EXPECTED_LICENSE = "MIT"
+EXPECTED_HOMEPAGE = "https://github.com/NylasDev/nylas-dungeon-master-skills"
 MAX_DESCRIPTION_LENGTH = 1024
-WARN_DESCRIPTION_LENGTH = 200
+WARN_DESCRIPTION_LENGTH = 160
 MAX_SKILL_CHARS = 100_000
 NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 SUPPORT_PATH_RE = re.compile(r"(?<![\w/])((?:references|templates|scripts|assets)/[A-Za-z0-9_.\-/]+\.[A-Za-z0-9]+)")
@@ -55,7 +64,7 @@ def iter_text_files(root: Path):
     for path in root.rglob("*"):
         if ".git" in path.parts:
             continue
-        if path.is_file() and path.suffix.lower() in {".md", ".txt", ".yml", ".yaml", ".py"}:
+        if path.is_file() and path.suffix.lower() in {".md", ".txt", ".yml", ".yaml", ".py", ".json", ".jsonc", ".sh"}:
             yield path
 
 
@@ -103,6 +112,8 @@ def validate_skill(path: Path, errors: list[str], warnings: list[str]) -> None:
     description = data.get("description", "")
     author = data.get("author", "")
     license_name = data.get("license", "")
+    homepage = data.get("homepage", "")
+    user_invocable = data.get("user-invocable", "")
 
     if not name:
         errors.append(f"{rel}: missing name in frontmatter")
@@ -123,6 +134,19 @@ def validate_skill(path: Path, errors: list[str], warnings: list[str]) -> None:
 
     if license_name != EXPECTED_LICENSE:
         errors.append(f"{rel}: license should be '{EXPECTED_LICENSE}'")
+
+    if homepage != EXPECTED_HOMEPAGE:
+        errors.append(f"{rel}: homepage should be '{EXPECTED_HOMEPAGE}' for public agent directory compatibility")
+
+    if user_invocable.lower() != "true":
+        errors.append(f"{rel}: user-invocable should be true for OpenClaw slash-command discovery")
+
+    for required_block in ("  hermes:", "  agentskills:", "  openclaw:"):
+        if required_block not in text:
+            errors.append(f"{rel}: metadata block missing {required_block.strip()}")
+
+    if "    always: true" not in text:
+        errors.append(f"{rel}: metadata.openclaw.always should be true because these skills require no external tools")
 
     if not body.strip():
         errors.append(f"{rel}: body is empty")
@@ -161,6 +185,52 @@ def scan_public_text(errors: list[str], warnings: list[str]) -> None:
                         warnings.append(f"{rel}:{line_no}: proprietary/sourcebook marker found; ensure this is only hygiene discussion: {pattern}")
 
 
+def validate_agent_support(skill_names: set[str], errors: list[str]) -> None:
+    support_path = ROOT / "agent-support.json"
+    if not support_path.exists():
+        errors.append("agent-support.json is missing")
+        return
+
+    try:
+        data = json.loads(support_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        errors.append(f"agent-support.json: invalid JSON: {exc}")
+        return
+
+    if data.get("repository") != "NylasDev/nylas-dungeon-master-skills":
+        errors.append("agent-support.json: repository must be NylasDev/nylas-dungeon-master-skills")
+
+    support_skills = {entry.get("name") for entry in data.get("skills", [])}
+    if support_skills != skill_names:
+        errors.append(f"agent-support.json: skills {sorted(support_skills)} do not match SKILL.md files {sorted(skill_names)}")
+
+    for entry in data.get("skills", []):
+        name = entry.get("name")
+        path_value = entry.get("path")
+        if not name or not path_value:
+            errors.append("agent-support.json: each skill entry needs name and path")
+            continue
+        if not (ROOT / path_value / "SKILL.md").exists():
+            errors.append(f"agent-support.json: skill path missing SKILL.md for {name}: {path_value}")
+
+    first_class = {entry.get("id") for entry in data.get("first_class_agents", [])}
+    for required in ("hermes-agent", "openclaw"):
+        if required not in first_class:
+            errors.append(f"agent-support.json: missing first-class agent {required}")
+
+    cli_agents = [entry.get("id") for entry in data.get("skills_cli_agents", [])]
+    if len(cli_agents) != len(set(cli_agents)):
+        errors.append("agent-support.json: duplicate skills_cli_agents ids found")
+
+    for required in ("claude-code", "codex", "opencode", "cursor", "github-copilot"):
+        if required not in cli_agents:
+            errors.append(f"agent-support.json: missing common Skills CLI agent {required}")
+
+    validation = data.get("validation", [])
+    if "bash scripts/smoke-agent-installs.sh" not in validation:
+        errors.append("agent-support.json: validation should include bash scripts/smoke-agent-installs.sh")
+
+
 def main() -> int:
     errors: list[str] = []
     warnings: list[str] = []
@@ -172,8 +242,10 @@ def main() -> int:
     for path in skill_files:
         validate_skill(path, errors, warnings)
 
-    scan_public_text(errors, warnings)
+    skill_names = {path.parent.name for path in skill_files}
+    validate_agent_support(skill_names, errors)
 
+    scan_public_text(errors, warnings)
     print(f"Validated {len(skill_files)} skill file(s).")
 
     if warnings:

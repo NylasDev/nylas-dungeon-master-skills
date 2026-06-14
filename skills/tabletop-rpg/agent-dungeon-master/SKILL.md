@@ -6,6 +6,8 @@ author: Sergiu Vataman (Nylas)
 license: MIT
 platforms: [linux, macos, windows]
 compatibility: "Portable Agent Skills format; no external tools required."
+homepage: https://github.com/NylasDev/nylas-dungeon-master-skills
+user-invocable: true
 metadata:
   hermes:
     tags: [tabletop-rpg, dungeon-master, solo-rpg, campaign, dnd, player-characters, improvisation]
@@ -14,6 +16,10 @@ metadata:
   agentskills:
     category: games
     audience: [players, forever-dms, tabletop-rpg-facilitators]
+  openclaw:
+    always: true
+    category: tabletop-rpg
+    userInvocable: true
 ---
 
 # Agent Dungeon Master

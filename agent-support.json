@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "repository": "NylasDev/nylas-dungeon-master-skills",
+  "homepage": "https://github.com/NylasDev/nylas-dungeon-master-skills",
+  "format": "portable-agent-skills",
+  "source_install": "npx --yes skills@latest add NylasDev/nylas-dungeon-master-skills",
+  "skills": [
+    {
+      "name": "agent-dungeon-master",
+      "path": "skills/tabletop-rpg/agent-dungeon-master",
+      "raw_url": "https://raw.githubusercontent.com/NylasDev/nylas-dungeon-master-skills/main/skills/tabletop-rpg/agent-dungeon-master/SKILL.md",
+      "summary": "Run a tabletop RPG or solo campaign as the Dungeon Master."
+    },
+    {
+      "name": "dungeon-master-assistant",
+      "path": "skills/tabletop-rpg/dungeon-master-assistant",
+      "raw_url": "https://raw.githubusercontent.com/NylasDev/nylas-dungeon-master-skills/main/skills/tabletop-rpg/dungeon-master-assistant/SKILL.md",
+      "summary": "Help a human Dungeon Master prepare and run sessions."
+    }
+  ],
+  "first_class_agents": [
+    {
+      "id": "hermes-agent",
+      "display_name": "Hermes Agent",
+      "status": "first-class",
+      "global_install": "npx --yes skills@latest add NylasDev/nylas-dungeon-master-skills --skill agent-dungeon-master --skill dungeon-master-assistant --agent hermes-agent --global --yes",
+      "native_install": [
+        "hermes skills tap add NylasDev/nylas-dungeon-master-skills",
+        "hermes skills install https://raw.githubusercontent.com/NylasDev/nylas-dungeon-master-skills/main/skills/tabletop-rpg/agent-dungeon-master/SKILL.md --category tabletop-rpg --yes",
+        "hermes skills install https://raw.githubusercontent.com/NylasDev/nylas-dungeon-master-skills/main/skills/tabletop-rpg/dungeon-master-assistant/SKILL.md --category tabletop-rpg --yes"
+      ]
+    },
+    {
+      "id": "openclaw",
+      "display_name": "OpenClaw",
+      "status": "first-class",
+      "global_install": "npx --yes skills@latest add NylasDev/nylas-dungeon-master-skills --skill agent-dungeon-master --skill dungeon-master-assistant --agent openclaw --global --yes",
+      "native_install": [
+        "cp -R skills/tabletop-rpg/agent-dungeon-master ~/.openclaw/skills/",
+        "cp -R skills/tabletop-rpg/dungeon-master-assistant ~/.openclaw/skills/",
+        "openclaw skills list"
+      ],
+      "registry_publish": [
+        "clawhub skill publish skills/tabletop-rpg/agent-dungeon-master --slug agent-dungeon-master --name \"Agent Dungeon Master\" --version 1.1.0 --tags tabletop-rpg,dungeon-master,solo-rpg",
+        "clawhub skill publish skills/tabletop-rpg/dungeon-master-assistant --slug dungeon-master-assistant --name \"Dungeon Master Assistant\" --version 1.1.0 --tags tabletop-rpg,dungeon-master,prep"
+      ]
+    }
+  ],
+  "skills_cli_agents": [
+    { "id": "claude-code", "display_name": "Claude Code" },
+    { "id": "codex", "display_name": "Codex" },
+    { "id": "opencode", "display_name": "OpenCode" },
+    { "id": "cursor", "display_name": "Cursor" },
+    { "id": "github-copilot", "display_name": "GitHub Copilot" },
+    { "id": "gemini-cli", "display_name": "Gemini CLI" },
+    { "id": "goose", "display_name": "Goose" },
+    { "id": "windsurf", "display_name": "Windsurf" },
+    { "id": "zed", "display_name": "Zed" },
+    { "id": "cline", "display_name": "Cline" },
+    { "id": "roo", "display_name": "Roo Code" },
+    { "id": "kilo", "display_name": "Kilo Code" },
+    { "id": "kiro-cli", "display_name": "Kiro CLI" },
+    { "id": "antigravity", "display_name": "Antigravity" },
+    { "id": "antigravity-cli", "display_name": "Antigravity CLI" },
+    { "id": "droid", "display_name": "Droid" },
+    { "id": "amp", "display_name": "AMP" }
+  ],
+  "validation": [
+    "python3 scripts/validate-skills.py",
+    "bash scripts/smoke-agent-installs.sh",
+    "npx --yes skills@latest add NylasDev/nylas-dungeon-master-skills --list"
+  ]
+}

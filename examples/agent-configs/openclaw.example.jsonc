@@ -1,0 +1,30 @@
+{
+  // Copy the relevant parts into ~/.openclaw/openclaw.json or your
+  // workspace OpenClaw config. Replace the path with an absolute path to
+  // this cloned repository.
+  "skills": {
+    "load": {
+      "extraDirs": [
+        "/absolute/path/to/nylas-dungeon-master-skills/skills/tabletop-rpg"
+      ],
+      "watch": true,
+      "watchDebounceMs": 250
+    },
+    "entries": {
+      "agent-dungeon-master": {
+        "enabled": true
+      },
+      "dungeon-master-assistant": {
+        "enabled": true
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "skills": [
+        "agent-dungeon-master",
+        "dungeon-master-assistant"
+      ]
+    }
+  }
+}

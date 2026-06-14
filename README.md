@@ -40,6 +40,29 @@ npx --yes skills@latest use NylasDev/nylas-dungeon-master-skills --skill agent-d
 npx --yes skills@latest use NylasDev/nylas-dungeon-master-skills --skill agent-dungeon-master --agent codex --full-depth
 ```
 
+## Agent compatibility
+
+This repo now documents and validates wide agent support instead of just hoping every agent goblin guesses correctly.
+
+- First-class targets: Hermes Agent and OpenClaw.
+- Skills CLI targets include Claude Code, Codex, OpenCode, Cursor, GitHub Copilot, Gemini CLI, Goose, Windsurf, Zed, Cline, Roo, Kilo, Kiro, Antigravity, Droid, and AMP.
+- Compatibility metadata lives in each `SKILL.md` under `metadata.hermes`, `metadata.agentskills`, and `metadata.openclaw`.
+- The support matrix lives in `agent-support.json`.
+- Full install notes live in `docs/agent-compatibility.md`.
+- Helper installer: `scripts/install-agent-skills.sh`.
+
+Install both skills for Hermes Agent and OpenClaw:
+
+```bash
+scripts/install-agent-skills.sh --global --all-skills --agent hermes-agent --agent openclaw
+```
+
+Run non-destructive compatibility smoke checks:
+
+```bash
+bash scripts/smoke-agent-installs.sh
+```
+
 ## Install with Hermes Agent
 
 Install directly from raw GitHub URLs:
@@ -67,15 +90,21 @@ hermes skills inspect https://raw.githubusercontent.com/NylasDev/nylas-dungeon-m
 README.md
 LICENSE
 CONTRIBUTING.md
+agent-support.json
 docs/
+  agent-compatibility.md
   publishing.md
   release-checklist.md
   skill-authoring.md
 examples/
+  agent-configs/
+    openclaw.example.jsonc
   agent-dungeon-master/
     live-play-turn.md
     solo-campaign-start.md
 scripts/
+  install-agent-skills.sh
+  smoke-agent-installs.sh
   validate-skills.py
 skills/
   tabletop-rpg/
@@ -100,6 +129,7 @@ Run the local validator before opening a PR:
 
 ```bash
 python3 scripts/validate-skills.py
+bash scripts/smoke-agent-installs.sh
 npx --yes skills@latest add . --list
 npx --yes skills@latest use . --skill agent-dungeon-master --full-depth
 ```

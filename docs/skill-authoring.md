@@ -45,11 +45,21 @@ description: Use when <specific trigger>. Explains <specific workflow>.
 version: 1.0.0
 author: Sergiu Vataman (Nylas)
 license: MIT
+platforms: [linux, macos, windows]
+compatibility: "Portable Agent Skills format; no external tools required."
+homepage: https://github.com/NylasDev/nylas-dungeon-master-skills
+user-invocable: true
 metadata:
   hermes:
     tags: [tabletop-rpg, dungeon-master]
     category: tabletop-rpg
     related_skills: []
+  agentskills:
+    category: games
+  openclaw:
+    always: true
+    category: tabletop-rpg
+    userInvocable: true
 ---
 ```
 
@@ -57,8 +67,10 @@ Rules:
 
 - `name` must match the parent folder.
 - `name` should use lowercase letters, numbers, and hyphens.
-- `description` must be under 1024 characters.
-- Keep descriptions short enough for agent discovery.
+- `description` must be under 1024 characters, and should stay under 160 characters for OpenClaw/slash-command discovery.
+- `homepage` points marketplaces and installers back to the canonical repository.
+- `user-invocable: true` keeps the skill available for explicit `/skill`-style invocation.
+- `metadata.hermes`, `metadata.agentskills`, and `metadata.openclaw` should all be present.
 - The body must not be empty.
 
 ## Recommended sections
@@ -131,7 +143,8 @@ Run:
 
 ```bash
 python3 scripts/validate-skills.py
+bash scripts/smoke-agent-installs.sh
 npx --yes skills@latest add . --list
 ```
 
-If the skill should be public-release ready, also test `npx skills use` for the changed skill.
+If the skill should be public-release ready, also test `npx skills use` for the changed skill and update `agent-support.json` if platform metadata changes.
