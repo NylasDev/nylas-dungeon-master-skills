@@ -18,7 +18,7 @@ The main promise is simple: agents should be able to DM complete campaigns, espe
 | `agent-dungeon-master` | An agent should run a tabletop RPG or solo campaign as the DM. |
 | `dungeon-master-assistant` | A human DM wants prep, NPCs, encounters, factions, recaps, or table-ready notes. |
 
-## Install with npx skills
+## Quick start
 
 List the skills in this repo:
 
@@ -26,19 +26,40 @@ List the skills in this repo:
 npx --yes skills@latest add NylasDev/nylas-dungeon-master-skills --list
 ```
 
-Install a specific skill globally for a supported agent:
-
-```bash
-npx --yes skills@latest add NylasDev/nylas-dungeon-master-skills --skill agent-dungeon-master -g -a claude-code -y
-npx --yes skills@latest add NylasDev/nylas-dungeon-master-skills --skill dungeon-master-assistant -g -a claude-code -y
-```
-
 Use a skill without installing it:
 
 ```bash
-npx --yes skills@latest use NylasDev/nylas-dungeon-master-skills --skill agent-dungeon-master --full-depth
-npx --yes skills@latest use NylasDev/nylas-dungeon-master-skills --skill agent-dungeon-master --agent codex --full-depth
+npx --yes skills@latest use NylasDev/nylas-dungeon-master-skills@agent-dungeon-master --full-depth
+npx --yes skills@latest use NylasDev/nylas-dungeon-master-skills@dungeon-master-assistant --full-depth
 ```
+
+Install both skills directly into Hermes Agent and OpenClaw:
+
+```bash
+npx --yes skills@latest add NylasDev/nylas-dungeon-master-skills \
+  --skill agent-dungeon-master \
+  --skill dungeon-master-assistant \
+  --agent hermes-agent \
+  --agent openclaw \
+  --global \
+  --copy \
+  --yes
+```
+
+Install for Claude Code and Codex instead:
+
+```bash
+npx --yes skills@latest add NylasDev/nylas-dungeon-master-skills \
+  --skill agent-dungeon-master \
+  --skill dungeon-master-assistant \
+  --agent claude-code \
+  --agent codex \
+  --global \
+  --copy \
+  --yes
+```
+
+Important little CLI goblin: `skills use --agent` currently renders prompts for a smaller set of agents, but `skills add --agent` is the wide install path. Do not use `skills use --agent hermes-agent` as proof Hermes is unsupported.
 
 ## Agent compatibility
 
@@ -51,13 +72,15 @@ This repo now documents and validates wide agent support instead of just hoping 
 - Full install notes live in `docs/agent-compatibility.md`.
 - Helper installer: `scripts/install-agent-skills.sh`.
 
-Install both skills for Hermes Agent and OpenClaw:
+Install from a local clone with the helper script:
 
 ```bash
-scripts/install-agent-skills.sh --global --all-skills --agent hermes-agent --agent openclaw
+git clone https://github.com/NylasDev/nylas-dungeon-master-skills.git
+cd nylas-dungeon-master-skills
+scripts/install-agent-skills.sh --global --copy --all-skills --agent hermes-agent --agent openclaw
 ```
 
-Run non-destructive compatibility smoke checks:
+Run non-destructive compatibility smoke checks from a clone:
 
 ```bash
 bash scripts/smoke-agent-installs.sh
